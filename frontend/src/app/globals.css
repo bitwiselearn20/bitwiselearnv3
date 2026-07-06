@@ -52,6 +52,26 @@
   --hover-text-special: rgba(100,172,255,0.56);
 }
 
+/* Landing-page-only light theme: overrides the shared Colors variables
+   (used by Navbar/Footer, which are also rendered on other pages) so the
+   flip to white/black stays scoped to whatever is wrapped in this class
+   instead of changing the variables globally. */
+.landing-light-theme {
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F4F4F5;
+  --bg-accent: #E5E5E5;
+
+  --text-primary: #000000;
+  --text-secondary: #52525B;
+  --text-special: #64ACFF;
+
+  --border-default: #E5E5E5;
+  --border-faded: rgba(0,0,0,0.1);
+
+  --icon-primary: #000000;
+  --icon-secondary: #FFFFFF;
+}
+
 
 
 input:-webkit-autofill,

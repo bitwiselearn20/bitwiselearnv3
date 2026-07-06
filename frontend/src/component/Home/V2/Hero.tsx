@@ -12,14 +12,46 @@ const reviewAvatars = [
   "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face",
 ];
 
+const TYPING_WORDS = ["Coding", "Placements", "Interviews", "Your Career"];
+
+function useTypewriter(words: string[]) {
+  const [text, setText] = useState("");
+  const [wordIndex, setWordIndex] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const current = words[wordIndex % words.length];
+    const speed = deleting ? 45 : 90;
+    const pauseAtFull = 1400;
+    const pauseAtEmpty = 300;
+
+    if (!deleting && text === current) {
+      const t = setTimeout(() => setDeleting(true), pauseAtFull);
+      return () => clearTimeout(t);
+    }
+    if (deleting && text === "") {
+      const t = setTimeout(() => {
+        setDeleting(false);
+        setWordIndex((i) => (i + 1) % words.length);
+      }, pauseAtEmpty);
+      return () => clearTimeout(t);
+    }
+    const t = setTimeout(() => {
+      setText(current.slice(0, deleting ? text.length - 1 : text.length + 1));
+    }, speed);
+    return () => clearTimeout(t);
+  }, [text, deleting, wordIndex, words]);
+
+  return text;
+}
+
 export function Hero() {
   const { ref: topRef, inView: topInView } = useInView({ threshold: 0.2 });
   const { ref: cardsRef, inView: cardsInView } = useInView({ threshold: 0.15 });
   const videoRef = useRef<HTMLVideoElement>(null);
   const hasAutoplayedRef = useRef(false);
   const [isPlaying, setIsPlaying] = useState(false);
-
-
+  const typedWord = useTypewriter(TYPING_WORDS);
 
   useEffect(() => {
     if (!cardsInView || hasAutoplayedRef.current || !videoRef.current) return;
@@ -55,7 +87,7 @@ export function Hero() {
             {reviewAvatars.map((src, i) => (
               <div
                 key={i}
-                className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-black ring-1 ring-neutral-600 sm:h-14 sm:w-14"
+                className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-white ring-1 ring-neutral-200 sm:h-14 sm:w-14"
               >
                 <Image
                   src={src}
@@ -67,8 +99,8 @@ export function Hero() {
               </div>
             ))}
           </div>
-          <p className="mt-3 text-sm font-medium uppercase tracking-wider text-white">
-            125k+ student reviews
+          <p className="mt-3 text-sm font-medium uppercase tracking-wider text-black">
+            Transforming tech education
           </p>
         </div>
 
@@ -76,14 +108,31 @@ export function Hero() {
         <div
           className={`mt-10 text-center scroll-reveal scroll-stagger-1 ${topInView ? "is-visible" : ""}`}
         >
-          <h1 className="title-react text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
-            Build skills
+          <h1 className="title-react text-4xl font-bold tracking-tight text-black sm:text-5xl md:text-6xl lg:text-7xl">
+            Master the Art of
             <br />
-            New opportunities.
+            <span className="text-black">
+              {typedWord}
+              <span className="animate-pulse text-neutral-400">|</span>
+            </span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-neutral-300 sm:text-xl">
-            Bitwise Learn gives you a complete learning experience with placement-focused EdTech and industry-ready courses—so you gain real, job-ready skills and take the next step in your career.
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-neutral-600 sm:text-xl">
+            Bridge the gap between academic theory and industry reality. Join the growing community of learners turning classroom knowledge into real, job-ready skill.
           </p>
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a
+              href="/multi-login"
+              className="rounded-full bg-black px-7 py-3 font-medium text-white hover:bg-neutral-800"
+            >
+              Start Learning
+            </a>
+            <a
+              href="#platform-preview"
+              className="rounded-full border border-neutral-300 px-7 py-3 font-medium text-black hover:border-black"
+            >
+              Watch Demo
+            </a>
+          </div>
         </div>
 
         {/* Three separate tiles: left portrait | center video (bigger) | right portrait */}
@@ -108,10 +157,8 @@ export function Hero() {
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/30 to-transparent" />
               <div className="absolute bottom-5 left-5 right-5 text-white drop-shadow">
-                <p className="text-xl font-bold sm:text-2xl">92% Career Outcome</p>
-                <p className="text-lg font-medium opacity-95">Success</p>
-                <p className="mt-2 text-base font-medium opacity-90">Mark Jhongson</p>
-                <p className="text-sm opacity-85">CEO at Bitwise Learn</p>
+                <p className="text-xl font-bold sm:text-2xl">95% Placement</p>
+                <p className="text-lg font-medium opacity-95">Success Rate</p>
               </div>
             </div>
           </div>
@@ -123,7 +170,7 @@ export function Hero() {
             }`}
             style={{ transitionDelay: "100ms" }}
           >
-            <div className="relative aspect-[2.2/1] w-full overflow-hidden rounded-2xl bg-neutral-900">
+            <div className="relative aspect-[2.2/1] w-full overflow-hidden rounded-2xl bg-neutral-100">
               <video
                 ref={videoRef}
                 src={SAMPLE_VIDEO_SRC}
@@ -148,8 +195,8 @@ export function Hero() {
                 </button>
               )}
               <div className="absolute bottom-5 left-5">
-                <p className="text-2xl font-bold text-white sm:text-3xl">Mark Jhongson</p>
-                <p className="text-base text-white/90">CEO at Bitwise Learn</p>
+                <p className="text-2xl font-bold text-white sm:text-3xl">See BitwiseLearn in action</p>
+                <p className="text-base text-white/90">A two-minute tour of the platform</p>
               </div>
               <button
                 type="button"
@@ -187,7 +234,7 @@ export function Hero() {
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
               <p className="absolute bottom-5 left-5 right-14 text-lg font-bold text-white drop-shadow sm:text-xl">
-                100+ Experienced tutors
+                100+ industry-experienced trainers
               </p>
               <div className="absolute bottom-4 right-4 flex h-9 w-9 items-center justify-center rounded-lg bg-white/20">
                 <svg className="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 24 24">

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ServicesHeader } from "./ServiceHeader";
 import Footer from "@/component/general/Footer";
-import V1HomeNav from "@/component/Home/V1/V1HomeNav";
+import { Navbar } from "@/component/general/Navbar";
 
 const SERVICE_FILTERS = ["SaaS", "Training", "Partnerships"] as const;
 
@@ -341,7 +341,7 @@ export function OurServicesV1() {
   return (
     <>
       {/* navabar  */}
-      <V1HomeNav />
+      <Navbar />
       {/* Header  */}
       <ServicesHeader />
       {/* Our Services */}
@@ -357,7 +357,7 @@ export function OurServicesV1() {
             Whether you are an institute, a vendor, or an individual learner, we
             can plug into your world with just the right mix of platform, people
             and processes.
-          </p>V1HomeNav
+          </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             {SERVICE_FILTERS.map((f) => (
               <button
