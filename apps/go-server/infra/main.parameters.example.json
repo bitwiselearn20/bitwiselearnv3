@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "namePrefix": { "value": "bitwise" },
+    "environmentName": { "value": "prod" },
+    "imageTag": { "value": "latest" },
+    "databaseUrl": { "value": "mongodb+srv://<user>:<pass>@<cluster>/bitwiselearn?retryWrites=true&w=majority" },
+    "jwtAccessSecret": { "value": "REPLACE_ME" },
+    "jwtRefreshSecret": { "value": "REPLACE_ME" },
+    "resetTokenSecret": { "value": "REPLACE_ME" },
+    "frontendUrl": { "value": "https://app.bitwiselearn.com" },
+    "emailUser": { "value": "notifications@bitwiselearn.com" },
+    "emailPass": { "value": "REPLACE_ME" },
+    "azureStorageConnectionString": { "value": "DefaultEndpointsProtocol=https;AccountName=...;AccountKey=...;EndpointSuffix=core.windows.net" },
+    "azureStorageContainer": { "value": "bitwise-learn" },
+    "mqClient": { "value": "amqp://guest:guest@bitwise-rabbitmq-prod:5672/" }
+  }
+}

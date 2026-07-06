@@ -1,0 +1,152 @@
+services:
+  piston:
+    image: ghcr.io/engineer-man/piston:latest
+    container_name: bitwise-piston
+    ports:
+      - "2000:2000"
+    volumes:
+      - piston_data:/piston
+    restart: unless-stopped
+    privileged: true
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  gateway:
+    build:
+      context: ./apps
+      dockerfile: gateway/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file: .env
+    environment:
+      AUTH_SERVICE_URL: http://auth-service:8001
+      USER_SERVICE_URL: http://user-service:8002
+      COURSE_SERVICE_URL: http://course-service:8003
+      PROBLEM_SERVICE_URL: http://problem-service:8004
+      ASSESSMENT_SERVICE_URL: http://assessment-service:8005
+      CODE_SERVICE_URL: http://code-service:8006
+      NOTIFICATION_SERVICE_URL: http://notification-service:8007
+      REPORT_SERVICE_URL: http://report-service:8008
+    depends_on:
+      - auth-service
+      - user-service
+      - course-service
+      - problem-service
+      - assessment-service
+      - code-service
+      - notification-service
+      - report-service
+
+  auth-service:
+    build:
+      context: ./apps
+      dockerfile: auth-service/Dockerfile
+    ports:
+      - "8001:8001"
+    env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      MQ_CLIENT: amqp://guest:guest@rabbitmq/
+    depends_on:
+      - rabbitmq
+
+  user-service:
+    build:
+      context: ./apps
+      dockerfile: user-service/Dockerfile
+    ports:
+      - "8002:8002"
+    env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      MQ_CLIENT: amqp://guest:guest@rabbitmq/
+    depends_on:
+      - rabbitmq
+
+  course-service:
+    build:
+      context: ./apps
+      dockerfile: course-service/Dockerfile
+    ports:
+      - "8003:8003"
+    env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      MQ_CLIENT: amqp://guest:guest@rabbitmq/
+    depends_on:
+      - rabbitmq
+
+  problem-service:
+    build:
+      context: ./apps
+      dockerfile: problem-service/Dockerfile
+    ports:
+      - "8004:8004"
+    env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      MQ_CLIENT: amqp://guest:guest@rabbitmq/
+    depends_on:
+      - rabbitmq
+
+  assessment-service:
+    build:
+      context: ./apps
+      dockerfile: assessment-service/Dockerfile
+    ports:
+      - "8005:8005"
+    env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      MQ_CLIENT: amqp://guest:guest@rabbitmq/
+      CODE_EXECUTION_SERVER: http://piston:2000/
+    depends_on:
+      - rabbitmq
+      - piston
+
+  code-service:
+    build:
+      context: ./apps
+      dockerfile: code-service/Dockerfile
+    ports:
+      - "8006:8006"
+    env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      MQ_CLIENT: amqp://guest:guest@rabbitmq/
+      CODE_EXECUTION_SERVER: http://piston:2000/
+    depends_on:
+      - rabbitmq
+      - piston
+
+  notification-service:
+    build:
+      context: ./apps
+      dockerfile: notification-service/Dockerfile
+    ports:
+      - "8007:8007"
+    env_file: .env
+    environment:
+      MQ_CLIENT: amqp://guest:guest@rabbitmq/
+    depends_on:
+      - rabbitmq
+
+  report-service:
+    build:
+      context: ./apps
+      dockerfile: report-service/Dockerfile
+    ports:
+      - "8008:8008"
+    env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      MQ_CLIENT: amqp://guest:guest@rabbitmq/
+    depends_on:
+      - rabbitmq
+
+volumes:
+  piston_data:

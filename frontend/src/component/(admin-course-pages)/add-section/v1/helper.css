@@ -1,0 +1,44 @@
+.input-wrapper {
+    position: relative;
+    width: 95%;
+  }
+  
+  .input-wrapper input {
+    width: 100%;
+    height: 40px;
+    padding-left: 35px;   /* space for icon */
+    padding-right: 80px;  /* space for button */
+    box-sizing: border-box;
+  }
+  
+  .icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  
+  .input-btn {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 28px;
+    padding: 0 10px;
+    border-radius: 6px;
+    color: black;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    opacity: 0.6;
+    pointer-events: none; /* IMPORTANT */
+  }
+  

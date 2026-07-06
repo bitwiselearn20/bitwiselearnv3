@@ -1,0 +1,130 @@
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Thin dark scrollbar */
+.thin-scrollbar::-webkit-scrollbar {
+  height: 4px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #64ACFF;
+  border-radius: 999px;
+}
+
+.thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #64ACFF transparent;
+}
+
+@keyframes exit {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  40% {
+    transform: translateX(12px);
+    opacity: 0;
+  }
+  41% {
+    transform: translateX(-12px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.group:hover .exit {
+  animation: exit 0.4s ease-in-out;
+}
+
+@keyframes button-wrap-left {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  40% {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  41% {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.group:hover .button-wrap-left {
+  animation: button-wrap-left 0.4s ease-in-out;
+}
+
+@keyframes button-wrap-right {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  40% {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+  41% {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.group:hover .button-wrap-right {
+  animation: button-wrap-right 0.4s ease-in-out;
+}
+
+@keyframes button-wrap-up {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  40% {
+    transform: translateY(-12px);
+    opacity: 0;
+  }
+  41% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.group:hover .button-wrap-up {
+  animation: button-wrap-up 0.4s ease-in-out;
+}
+
+@keyframes bounce-up {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.bounce-up {
+  animation: bounce-up 0.4s ease-in-out;
+}
